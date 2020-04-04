@@ -1,0 +1,157 @@
+#include<stdio.h>
+#include<conio.h>
+int main()
+{
+	 printf("\t\t\t----------------------- Scheduling -----------------------\n\n\n\n");
+	 printf("Queue 1 has higher priority than Queue 2\n\n");
+	 printf("In Queue 1 priority no:- 0 is the highest\n\n\n\n\n");
+	 int n=0,i=0,j=0;
+	 printf("Enter no of processes:  ");
+	 scanf("%d",&n);
+	 int process[n],priority[n],bt[n],at[n],queue[n];
+	 for(i=0;i<n;i++)
+  {
+  	printf("\nEnter Priority for Process [%d] : ", i);
+    scanf("%d", &priority[i]);
+    printf("Enter Burst Time for Process [%d] : ", i);
+    scanf("%d", &bt[i]);
+    printf("Enter Arrival Time for Process [%d] : ", i);
+    scanf("%d", &at[i]);
+    queue[i]=1;
+    process[i]=i;
+  }
+  
+  
+  printf("\n\n\t\t\t -------------- Entered Values are --------------\n\n");
+  printf("\t\t\t---------------------------------------------------------------\n");
+  printf("\t\t\t| Process | Priority | Arrival Time | Burst Time | Queue |\n");
+  printf("\t\t\t---------------------------------------------------------------\n");
+  for(i=0;i<n;i++)
+  {
+    printf("\t\t\t|  P[%d]   |      %d     |     %d      |    %d    |    %d    |\n",process[i],priority[i],at[i],bt[i],queue[i]);
+  }
+    printf("\t\t\t-------------------------------------------------------------\n");
+int t=0,t1=0;
+for(j=0;j<n;j++)
+{ 
+t=j;
+	for(i=j+1;i<n;i++)
+	{
+		if(at[t]>at[i])
+		{
+			t=i;
+		}
+	}
+	if(t!=j)
+	{
+		t1=process[j];
+		process[j]=process[t];
+		process[t]=t1;
+		t1=priority[j];
+		priority[j]=priority[t];
+		priority[t]=t1;
+		t1=at[j];
+		at[j]=at[t];
+		at[t]=t1;
+		t1=bt[j];
+		bt[j]=bt[t];
+		bt[t]=t1;
+	}
+}
+for(j=0;j<n;j++)
+{ 
+t=j;
+	for(i=j+1;i<n;i++)
+	{
+		if(at[t]==at[i])
+		{
+			if(priority[t]>priority[i])
+			{
+			t=i;
+		}
+		}
+	}
+	if(t!=j)
+	{
+		t1=process[j];
+		process[j]=process[t];
+		process[t]=t1;
+		t1=priority[j];
+		priority[j]=priority[t];
+		priority[t]=t1;
+		t1=at[j];
+		at[j]=at[t];
+		at[t]=t1;
+		t1=bt[j];
+		bt[j]=bt[t];
+		bt[t]=t1;
+	}
+}
+ printf("\n\n\t\t\t-------------- Entered Values after Sorting according to priority and arrival time are --------------\n\n");
+  printf("\t\t\t---------------------------------------------------------------\n");
+  printf("\t\t\t| Process | Priority | Arrival Time | Burst Time | Queue |\n");
+  printf("\t\t\t---------------------------------------------------------------\n");
+  for(i=0;i<n;i++)
+  {
+    printf("\t\t\t|  P[%d]   |      %d     |     %d      |    %d    |    %d    |\n",process[i],priority[i],at[i],bt[i],queue[i]);
+  }
+    printf("\t\t\t-------------------------------------------------------------\n");
+    int wt[n];
+    int twt=0;
+    int ttat=0;
+    int ct[n];
+    wt[0]=0;
+    int tat[n];
+    for(int q=1;q<n;q++)
+    {
+    	wt[q]=wt[q-1]+bt[q-1];
+    	twt=twt+wt[q];
+	}
+	twt=twt/n;
+	for(int q=0;q<n;q++)
+	{
+		ct[q]=bt[q]+wt[q];
+	}
+	for(int q=0;q<n;q++)
+	{
+		tat[q]=ct[q]-at[q];
+		ttat=ttat+tat[q];
+	}
+	ttat=ttat/n;
+int qt[100];
+int bust=bt[0];
+int nprocess=process[0];
+int npriority=priority[0];
+int k=0;
+printf("%d\n",nprocess);
+int to;
+for(i=1;i<=at[n-1];i++)
+{ 
+	for(j=0;j<n;j++)
+	{
+		if(at[j]<=i)
+		{
+			if(npriority>priority[j]||bust==0)
+			{
+				qt[k]=nprocess;
+				k=k+1;
+          }
+			nprocess=process[j-1];
+			npriority=priority[j-1];
+			bust=bt[j-1]+1;
+			}
+		}
+	bust=bust-1;
+}
+printf("\n\n\t\t\t -------------- Results are -------------------\n\n");
+  printf("\t\t\t---------------------------------------------------------------------------------------------------------------------------------------------\n");
+  printf("\t\t\t| Process | Priority | Arrival Time | Burst Time | Waiting Time | Completion Time | Tournaround Time\n");
+  printf("\t\t\t---------------------------------------------------------------------------------------------------------------------------------------------\n");
+  for(i=0;i<n;i++)
+  {
+    printf("\t\t\t|  P[%d]   |      %d     |     %d      |       %d      |        %d       |       %d       |      %d     |\n",process[i],priority[i],at[i],bt[i],wt[i],ct[i],tat[i]);
+  }
+    printf("\t\t\t--------------------------------------------------------------------------------------------------------------------------------------------\n");
+printf("\n\n\nAverage waiting time:%d",twt);
+printf("\nAverage Turn Around Time:%d",ttat);
+}
